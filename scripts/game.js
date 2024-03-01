@@ -14,41 +14,66 @@ const randomWordGenerator = (arr) => {
   return arr[wordIndex];
 };
 
-const generateDashes = (word) => {
+const renderLetterPlaceHolder = (dashesArr, i) => {
+  return `<div>
+  <p>${dashesArr[i]}</p>
+</div>`;
+};
+
+const renderAnswer = (word, dashesArr) => {
   const len = word.length;
+  answer.innerHTML = '';
 
   for (let i = 0; i < len; i++) {
-    answer.innerText += '-';
+    answer.innerHTML += renderLetterPlaceHolder(dashesArr, i);
   }
 };
 
-const checkExistingLetter = (word, userLetter) => {
-  if (word.includes(userLetter)) {
-    console.log(userLetter, 'exist');
+const checkExistingLetter = (word, userLetter, dashesArr) => {
+  let found = false;
+
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === userLetter) {
+      dashesArr[i] = userLetter;
+      found = true;
+    }
+  }
+
+  if (found) {
+    renderAnswer(word, dashesArr);
+  } else {
+    console.log('Incorrect guess. Try again!');
+    // Add logic for building hangman parts here
   }
 };
 
-const handleClickOnKeyboard = function (word, e) {
-  console.log(e);
+const handleClickOnKeyboard = function (word, dashesArr, e) {
+  console.log(e.key);
+
+  checkExistingLetter(word, e.key, dashesArr);
 };
 
-const handleClickOnLetters = function (word, e) {
-  console.log(e.target.innerText.toLowerCase());
+const handleClickOnLetters = function (word, dashesArr, e) {
+  console.log(dashesArr);
+  const letter = e.target.innerText.toLowerCase();
+  checkExistingLetter(word, letter, dashesArr);
 };
 
 function game() {
   const words = ['ambitious', 'conscientious', 'perceptive', 'persistence', 'leadership', 'organization', 'enthusiasm', 'curiosity'];
   const word = randomWordGenerator(words);
   console.log(word);
+  const dashesArr = Array.from({ length: word.length }, () => '_');
+  renderAnswer(word, dashesArr);
 
-  generateDashes(word);
-  document.addEventListener('keydown', handleClickOnKeyboard.bind(null, word));
+  // Event Listeners :
+  document.addEventListener('keydown', handleClickOnKeyboard.bind(null, word, dashesArr));
 
   letters.forEach((letter) => {
     // ! Note call method immediatley invokes the function with specified this value and arguments so it's not useful to be used here instead bind method will work !!! 🎉
     // letter.addEventListener('click', handleClickOnLetters.call(this, word));
 
-    letter.addEventListener('click', handleClickOnLetters.bind(null, word));
+    letter.addEventListener('click', handleClickOnLetters.bind(null, word, dashesArr));
   });
 }
 
