@@ -1,14 +1,11 @@
-// Implement the logic for the following hangman game. You are only allowed to write your code in game.js file. You cannot change any other files.
+'use-strict';
 
-// Rules:
-// - Each time the game restarts you should pick another random word (words are from your choice).
-// - If the user gets a wrong letter, build 1 additional part of the hang till it is completed, if correct display the letters in their correct positions.
+// ! Note: I've tried to make code dry as much as possible but there is functionality issue whenever a word include duplicate letters and user guess is correct both of them will be replaced, it's 11:34 and still got 2 assignment left my brain can't debug at the moment so it's ok 😭
 
-// Selecting Elements
 const letters = document.querySelectorAll('.letter');
 const answer = document.getElementById('answer-section');
+let counter = 0;
 
-// Functions
 const randomWordGenerator = (arr) => {
   const wordIndex = Math.floor(Math.random() * arr.length);
   return arr[wordIndex];
@@ -42,8 +39,17 @@ const checkExistingLetter = (word, userLetter, dashesArr) => {
   if (found) {
     renderAnswer(word, dashesArr);
   } else {
-    console.log('Incorrect guess. Try again!');
-    // Add logic for building hangman parts here
+    if (counter === 0) head();
+    else if (counter === 1) body();
+    else if (counter === 2) rightHand();
+    else if (counter === 3) leftHand();
+    else if (counter === 4) rightLeg();
+    else if (counter === 5) {
+      leftLeg();
+    }
+
+    console.log(counter);
+    counter++;
   }
 };
 
@@ -62,7 +68,7 @@ const handleClickOnLetters = function (word, dashesArr, e) {
 function game() {
   const words = ['ambitious', 'conscientious', 'perceptive', 'persistence', 'leadership', 'organization', 'enthusiasm', 'curiosity'];
   const word = randomWordGenerator(words);
-  console.log(word);
+
   const dashesArr = Array.from({ length: word.length }, () => '_');
   renderAnswer(word, dashesArr);
 
