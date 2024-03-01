@@ -1,7 +1,6 @@
 // Implement the logic for the following hangman game. You are only allowed to write your code in game.js file. You cannot change any other files.
 
 // Rules:
-// - User can click on the letters or type using the keyboard.
 // - Each time the game restarts you should pick another random word (words are from your choice).
 // - If the user gets a wrong letter, build 1 additional part of the hang till it is completed, if correct display the letters in their correct positions.
 
@@ -23,23 +22,33 @@ const generateDashes = (word) => {
   }
 };
 
-const handleClickOnKeyboard = function (e) {
-  console.log(e.key);
+const checkExistingLetter = (word, userLetter) => {
+  if (word.includes(userLetter)) {
+    console.log(userLetter, 'exist');
+  }
 };
 
-const handleClickOnLetters = function (e) {
-  console.log('got clicked');
+const handleClickOnKeyboard = function (word, e) {
+  console.log(e);
+};
+
+const handleClickOnLetters = function (word, e) {
+  console.log(e.target.innerText.toLowerCase());
 };
 
 function game() {
   const words = ['ambitious', 'conscientious', 'perceptive', 'persistence', 'leadership', 'organization', 'enthusiasm', 'curiosity'];
-
   const word = randomWordGenerator(words);
-  generateDashes(word);
+  console.log(word);
 
-  document.addEventListener('keydown', handleClickOnKeyboard);
+  generateDashes(word);
+  document.addEventListener('keydown', handleClickOnKeyboard.bind(null, word));
+
   letters.forEach((letter) => {
-    letter.addEventListener('click', handleClickOnLetters);
+    // ! Note call method immediatley invokes the function with specified this value and arguments so it's not useful to be used here instead bind method will work !!! 🎉
+    // letter.addEventListener('click', handleClickOnLetters.call(this, word));
+
+    letter.addEventListener('click', handleClickOnLetters.bind(null, word));
   });
 }
 
