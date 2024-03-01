@@ -1,7 +1,6 @@
 // Implement the logic for the following hangman game. You are only allowed to write your code in game.js file. You cannot change any other files.
 
 // Rules:
-// - When the game starts pick a random word and display dashes according to the length of the word.
 // - User can click on the letters or type using the keyboard.
 // - Each time the game restarts you should pick another random word (words are from your choice).
 // - If the user gets a wrong letter, build 1 additional part of the hang till it is completed, if correct display the letters in their correct positions.
@@ -24,11 +23,24 @@ const generateDashes = (word) => {
   }
 };
 
+const handleClickOnKeyboard = function (e) {
+  console.log(e.key);
+};
+
+const handleClickOnLetters = function (e) {
+  console.log('got clicked');
+};
+
 function game() {
-  const words = ['antifungal', 'antifungals', 'bifunctional', 'cofunction', 'cofunctions'];
+  const words = ['ambitious', 'conscientious', 'perceptive', 'persistence', 'leadership', 'organization', 'enthusiasm', 'curiosity'];
 
   const word = randomWordGenerator(words);
   generateDashes(word);
+
+  document.addEventListener('keydown', handleClickOnKeyboard);
+  letters.forEach((letter) => {
+    letter.addEventListener('click', handleClickOnLetters);
+  });
 }
 
 game();
