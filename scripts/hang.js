@@ -1,4 +1,4 @@
-const hang = document.getElementById("hang");
+const hang = document.getElementById('hang');
 
 const head = () => {
   const head = `<img src="./assets/head.svg" alt="head" class="head" />`;
