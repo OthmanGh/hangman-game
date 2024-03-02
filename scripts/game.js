@@ -4,10 +4,21 @@ const answer = document.getElementById('answer-section');
 let counter = 0;
 
 const randomWordGenerator = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const letter = (dashesArr, i) => `<p>${dashesArr[i]}</p>`;
+const letter = (dashesArr, i) => `<p> &nbsp;${dashesArr[i]}</p>`;
 const renderAnswer = (word, dashesArr) => {
   answer.innerHTML = '';
   for (let i = 0; i < word.length; i++) answer.innerHTML += letter(dashesArr, i);
+};
+
+const buildHangman = (counter) => {
+  if (counter === 0) head();
+  else if (counter === 1) body();
+  else if (counter === 2) rightHand();
+  else if (counter === 3) leftHand();
+  else if (counter === 4) rightLeg();
+  else if (counter === 5) {
+    leftLeg();
+  }
 };
 
 const checkExistingLetter = (word, userLetter, dashesArr) => {
@@ -18,22 +29,14 @@ const checkExistingLetter = (word, userLetter, dashesArr) => {
     if (userLetter === word[i]) {
       dashesArr[i] = userLetter;
       found = true;
-      break;
+      break; // This break is a life saver 🙂
     }
   }
 
   if (!found) {
-    if (counter === 0) head();
-    else if (counter === 1) body();
-    else if (counter === 2) rightHand();
-    else if (counter === 3) leftHand();
-    else if (counter === 4) rightLeg();
-    else if (counter === 5) {
-      leftLeg();
-    }
+    buildHangman(counter);
     counter++;
   }
-
   renderAnswer(word, dashesArr);
 };
 
