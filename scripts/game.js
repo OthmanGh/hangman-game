@@ -41,13 +41,8 @@ const checkExistingLetter = (word, userLetter, dashesArr) => {
   }
 };
 
-const handleClickOnKeyboard = function (word, dashesArr, e) {
-  checkExistingLetter(word, e.key, dashesArr);
-};
-
-const handleClickOnLetters = function (word, dashesArr, e) {
-  checkExistingLetter(word, e.target.innerText.toLowerCase(), dashesArr);
-};
+const handleClickOnKeyboard = (word, dashesArr, e) => checkExistingLetter(word, e.key, dashesArr);
+const handleClickOnLetters = (word, dashesArr, e) => checkExistingLetter(word, e.target.innerText.toLowerCase(), dashesArr);
 
 function game() {
   const words = ['ambitious', 'conscientious', 'perceptive', 'persistence', 'leadership', 'organization', 'enthusiasm', 'curiosity'];
