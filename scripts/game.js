@@ -4,31 +4,25 @@ const answer = document.getElementById('answer-section');
 let counter = 0;
 
 const randomWordGenerator = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-const renderLetterPlaceHolder = (dashesArr, i) => `
-<div>
-<p>${dashesArr[i]}</p>
-</div>`;
-
+const letter = (dashesArr, i) => `<p>${dashesArr[i]}</p>`;
 const renderAnswer = (word, dashesArr) => {
   answer.innerHTML = '';
-  for (let i = 0; i < word.length; i++) answer.innerHTML += renderLetterPlaceHolder(dashesArr, i);
+  for (let i = 0; i < word.length; i++) answer.innerHTML += letter(dashesArr, i);
 };
 
 const checkExistingLetter = (word, userLetter, dashesArr) => {
-  // will be modified
   let found = false;
 
   for (let i = 0; i < word.length; i++) {
-    if (word[i] === userLetter) {
+    if (dashesArr[i] !== '_') continue;
+    if (userLetter === word[i]) {
       dashesArr[i] = userLetter;
       found = true;
+      break;
     }
   }
 
-  if (found) {
-    renderAnswer(word, dashesArr);
-  } else {
+  if (!found) {
     if (counter === 0) head();
     else if (counter === 1) body();
     else if (counter === 2) rightHand();
@@ -39,6 +33,8 @@ const checkExistingLetter = (word, userLetter, dashesArr) => {
     }
     counter++;
   }
+
+  renderAnswer(word, dashesArr);
 };
 
 const handleClickOnKeyboard = (word, dashesArr, e) => checkExistingLetter(word, e.key, dashesArr);
